@@ -5,12 +5,8 @@ import bentoml
 import torch
 import torchvision.transforms as T
 from PIL import Image
-import io
 import numpy as np
-import typing as t
 import cv2
-from bentoml.models import BentoModel
-import joblib
 
 class ResizeWithReplicatePadding:
     def __init__(self, target_size):
