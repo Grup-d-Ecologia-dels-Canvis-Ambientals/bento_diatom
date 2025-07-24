@@ -4,6 +4,7 @@ import zipfile
 import shutil
 import random
 from pathlib import Path
+import sys
 
 OUT_FOLDER = "data"
 SRC_DIR = "20250619_mv"
@@ -60,22 +61,27 @@ def organize_dirs():
                     n = len(alive[N_TEST:])
             print(f"Set '{s}', label '{label}', count {n} images")
 
-def unzip_files():
+def unzip_pictures():
     # Unzip file
-    print('Extracting files...')
+    print('Extracting pictures...')
     with zipfile.ZipFile("20250619_mv.zip", 'r') as zip_ref:
-        zip_ref.extractall()    
+        zip_ref.extractall()        
+
+def unzip_weights():
+    print('Extracting weights...')
     with zipfile.ZipFile("doa_diatom_model.zip", 'r') as zip_ref:
         zip_ref.extractall()
 
-def download_files():
-    # Download file
-    print('Downloading files...')
-    url = 'https://creaf-my.sharepoint.com/:u:/g/personal/a_escobar_creaf_uab_cat/EbiE91YiW6ZKo6FkF4nsBocBEHvKCyNjNDWIQA9fJ5krug?e=VdUvw5&download=1'
-    os.system(f"wget --content-disposition -c --read-timeout=5 --tries=0 {shlex.quote(url)}")
-
+def download_weight_files():
+    print('Download network weights...')
     url = 'https://creaf-my.sharepoint.com/:u:/g/personal/a_escobar_creaf_uab_cat/EUkPMCLqDH5Ej1-DjqnAUFwBunz3pCfS6F0-N6sjr4agrA?e=KFgeRv&download=1'
     os.system(f"wget --content-disposition -c --read-timeout=5 --tries=0 {shlex.quote(url)}")
+
+def download_image_files():
+    # Download file
+    print('Downloading image files...')
+    url = 'https://creaf-my.sharepoint.com/:u:/g/personal/a_escobar_creaf_uab_cat/EbiE91YiW6ZKo6FkF4nsBocBEHvKCyNjNDWIQA9fJ5krug?e=VdUvw5&download=1'
+    os.system(f"wget --content-disposition -c --read-timeout=5 --tries=0 {shlex.quote(url)}")    
 
 def cleanup():
     print("Deleting files and uncompressed folder")
@@ -98,11 +104,18 @@ def cleanup():
     if os.path.exists("doa_diatom_model.zip"):
         os.remove("doa_diatom_model.zip")
 
-def main():    
-    cleanup()    
-    download_files()
-    unzip_files()
-    organize_dirs()
+def main():
+    args = sys.argv[1:]
+    if len(args) == 1 and args[0] == 'w':
+        download_weight_files()
+        unzip_weights()
+    else:
+        cleanup()
+        download_weight_files()
+        download_image_files()        
+        unzip_pictures()
+        unzip_weights()
+        organize_dirs()
             
 
 if __name__ == "__main__":

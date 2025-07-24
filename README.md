@@ -4,6 +4,8 @@ This is a test exposing a trained dead or alive diatom image classifier through 
 
 ## How to use
 
+### Option 1 - Run locally
+
 1. Clone the repo
 1. Create virtual env
     ```
@@ -35,3 +37,14 @@ This is a test exposing a trained dead or alive diatom image classifier through 
     ```
     This scripts calls the "classify" endpoint for all of the images in the data folder and outputs the accuracy.
 
+### Option 2 - Use docker
+
+1. Build the docker image, with the command:
+    ```
+    docker build -t bento-diatom .
+    ```
+1. Run the created image with
+    ```
+    docker run -it --rm -p3000:3000 --name bento-diatom-docker bento-diatom
+    ```
+The service is accessible locally on [http://127.0.0.1:3000](http://127.0.0.1:3000)
