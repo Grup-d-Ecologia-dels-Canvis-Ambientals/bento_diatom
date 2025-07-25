@@ -78,10 +78,17 @@ def predict_image(img,model,transform,device,classes):
 )
 class MyResNet:    
     def __init__(self) -> None:
-        self.model = create_enhanced_resnet(2, pretrained=True)
-        state_dict = torch.load("doa_diatom_model.pth")
-        self.model.load_state_dict(state_dict)
-        self.model.eval()
+        
+        self.model_doa = create_enhanced_resnet(2, pretrained=True)
+        state_dict_doa = torch.load("doa_diatom_model.pth")
+        self.model_doa.load_state_dict(state_dict_doa)
+        self.model_doa.eval()
+        
+        self.model_species = create_enhanced_resnet(4, pretrained=True)
+        state_dict_species = torch.load("enhanced_diatom_model_cpu.pth")
+        self.model_species.load_state_dict(state_dict_species)
+        self.model_species.eval()
+        
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         # self.model = create_enhanced_resnet(2,pretrained=True)        
         self.processor = T.Compose([
@@ -91,5 +98,19 @@ class MyResNet:
         ])        
 
     @bentoml.api(batchable=False)
-    async def classify(self, image: Image.Image) -> str:
-        return predict_image(image, self.model, self.processor, self.device, ['alive','dead'])        
+    async def classify_doa(self, image: Image.Image) -> str:
+        return predict_image(image, self.model_doa, self.processor, self.device, ['alive','dead'])        
+    
+    @bentoml.api(batchable=False)
+    async def classify_species(self, image: Image.Image) -> str:
+        return predict_image(image, self.model_species, self.processor, self.device, ['gomphonema','hannea','nitzschia','nocell'])
+    
+    @bentoml.api(batchable=False)
+    async def classify_both(self, image: Image.Image) -> str:
+        species = predict_image(image, self.model_species, self.processor, self.device, ['gomphonema','hannea','nitzschia','nocell'])
+        if species == 'nocell':
+            return f"{species}_dead"
+        else:
+            doa = predict_image(image, self.model_doa, self.processor, self.device, ['alive','dead'])        
+        return f"{species}_{doa}"
+

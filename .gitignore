@@ -1,6 +1,7 @@
 20250619_mv
 venv
 data
+data_combined
 *.zip
 *.pth
 __pycache__
