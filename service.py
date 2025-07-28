@@ -75,6 +75,13 @@ def predict_image(img,model,transform,device,classes):
 
 @bentoml.service(
     image=bentoml.images.Image(python_version="3.12"),
+    http={
+        "cors": {
+            "enabled": True,
+            "access_control_allow_origins": ["http://localhost:5173"],
+            "access_control_allow_methods": ["GET", "OPTIONS", "POST", "HEAD", "PUT"],
+        }
+    }
 )
 class MyResNet:    
     def __init__(self) -> None:
