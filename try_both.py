@@ -1,7 +1,7 @@
 
 from pathlib import Path
 from tqdm import tqdm
-from test_helper import *
+from helper_try import *
 
 SPECIES = ["gomphonema","hannea","nitzschia","nocell"]
 CATEGORIES = ["alive","dead"]
@@ -12,7 +12,7 @@ def main():
         for setname in SETS:
             for especie in SPECIES:
                 expected_value = especie + "_" + category
-                base = Path(get_base_dir(expected_value, setname))
+                base = Path(get_base_dir("data_combined",expected_value, setname))
                 n_files = get_n_files_in_dir(base)
                 hits = 0
                 misses = 0

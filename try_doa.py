@@ -1,6 +1,6 @@
 from pathlib import Path
 from tqdm import tqdm
-from test_helper import *
+from helper_try import *
 
 CATEGORIES = ["alive","dead"]
 SETS = ["test", "train"]
@@ -8,7 +8,7 @@ SETS = ["test", "train"]
 def main():
     for category in CATEGORIES:
         for setname in SETS:
-            base = Path(get_base_dir(category,setname))
+            base = Path(get_base_dir("data",category,setname))
             n_files = get_n_files_in_dir(base)
             hits = 0
             misses = 0
