@@ -1,27 +1,11 @@
-import requests
 from pathlib import Path
-import os
-import fnmatch
 from tqdm import tqdm
+from test_helper import *
 
 CATEGORIES = ["alive","dead"]
 SETS = ["test", "train"]
 
-def get_base_dir(category, setname):
-    path = os.path.join("data",setname,category)
-    return path
-
-def get_n_files_in_dir(path):
-    count = len(fnmatch.filter(os.listdir(path), '*.*'))
-    return count
-
-def query_image(path):
-    with open(path, "rb") as f:
-        res = requests.post("http://localhost:3000/classify", files={"image": f})
-        return res.text
-    return None
-
-def main():    
+def main():
     for category in CATEGORIES:
         for setname in SETS:
             base = Path(get_base_dir(category,setname))
@@ -31,7 +15,7 @@ def main():
             total = 0
             with tqdm(total=n_files) as pbar:
                 for file in base.rglob('*'):
-                    itis = query_image(file)
+                    itis = query_image(file,"http://localhost:3000/classify_doa")
                     if itis == category:
                         hits = hits + 1
                     else:
