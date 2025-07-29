@@ -52,7 +52,7 @@ async function uploadFile() {
   formData.append('image', file.value)
 
   try {
-    const res = await fetch('http://localhost:3000/classify_both', {
+    const res = await fetch('http://127.0.0.1:3000/classify_both', {
       method: 'POST',
       body: formData
     })

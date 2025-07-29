@@ -78,7 +78,7 @@ def predict_image(img,model,transform,device,classes):
     http={
         "cors": {
             "enabled": True,
-            "access_control_allow_origins": ["http://localhost:5173"],
+            "access_control_allow_origins": ["*"],
             "access_control_allow_methods": ["GET", "OPTIONS", "POST", "HEAD", "PUT"],
         }
     }

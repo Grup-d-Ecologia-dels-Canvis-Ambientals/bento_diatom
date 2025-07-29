@@ -1,7 +1,12 @@
-from node:22.17-bullseye
+FROM node:22.17-bullseye
 
-WORKDIR app
+WORKDIR /app
 
-COPY * ./app
+COPY package.json .
+COPY package-lock.json .
 
-CMD [ "npm", "install" ]
+RUN npm install
+
+COPY . .
+
+CMD [ "npm", "run", "dev", "--", "--host" ]

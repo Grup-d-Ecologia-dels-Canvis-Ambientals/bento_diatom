@@ -11,6 +11,6 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 
-RUN python3 create_doa_dataset.py w
+RUN python3 create_doa_plus_species_dataset.py w
 # RUN bentoml serve
 CMD [ "bentoml", "serve" ]
