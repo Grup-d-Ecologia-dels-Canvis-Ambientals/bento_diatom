@@ -3,9 +3,11 @@ services:
     build: .
     ports:
       - 3000:3000    
+    
   node:
     build: ./vue-ui    
     ports:
       - 5173:5173
     depends_on:
-      - bento      
+      - bento
+    
