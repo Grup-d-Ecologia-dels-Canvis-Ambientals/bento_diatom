@@ -30,7 +30,7 @@ This is a test exposing a trained dead or alive diatom image classifier through 
     bentoml serve
     ```
     Which starts a server which by default runs at [http://127.0.0.1:3000](http://127.0.0.1:3000). This address exposes a [swagger](https://github.com/swagger-api/swagger-ui) interface with the API endpoints.
-1. Once running, we can play with the [classify enpoint](http://127.0.0.1:3000/#/Service%20APIs/MyResNet__classify). This endpoint receives an image (we can use any image in the data directory) and returns a simple "dead" or "alive" string with the precision.
+1. Once running, we can play with the [classify endpoint](http://127.0.0.1:3000/#/Service%20APIs/MyResNet__classify). This endpoint receives an image (we can use any image in the data directory) and returns a simple "dead" or "alive" string with the precision.
 1. To get an overall feel of the ResNet network performance, we can run the script test.py
     ```
     python test.py
